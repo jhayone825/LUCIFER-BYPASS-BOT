@@ -171,6 +171,12 @@
                     <td><span class="badge badge-running" data-i18n="badge-bypassing">BYPASSING</span></td>
                     <td><button class="btn-action" onclick="openManual()" data-i18n="btn-manual">Open Manual</button></td>
                 </tr>
+                <tr>
+                    <td><b>RealMadrid.com [CF]</b></td>
+                    <td>250</td>
+                    <td><span class="badge badge-running" data-i18n="badge-bypassing">BYPASSING</span></td>
+                    <td><button class="btn-action" onclick="openManual()" data-i18n="btn-manual">Open Manual</button></td>
+                </tr>
             </tbody>
         </table>
 
@@ -233,7 +239,6 @@
             const user = document.getElementById('user').value;
             const pass = document.getElementById('pass').value;
             
-            // Hardcoded Credentials Check
             if(user === "Lucifer2" && pass === "926081") {
                 document.getElementById('login-overlay').style.display = 'none';
                 logTerminalCustom(translations[currentLang]["term-auth"] + " " + user, "#00ff00");
@@ -281,7 +286,7 @@
         function startBypassSequence() {
             const delay = (ms) => new Promise(res => setTimeout(res, ms));
             const run = async () => {
-                logTerminalCustom("Initializing secure tunnel...", "#58a6ff");
+                logTerminalCustom("Initializing secure tunnel for all targets...", "#58a6ff");
                 await delay(1000);
                 logTerminalCustom(translations[currentLang]["err-proxy-transfer"], "#ff4444");
                 await delay(800);
