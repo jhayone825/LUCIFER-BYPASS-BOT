@@ -11,15 +11,11 @@
         .bot-overlay { background: rgba(17, 27, 51, 0.95); border: 1px solid #3b50b6; box-shadow: 0 0 20px rgba(59, 80, 182, 0.4); }
         .loader { border: 3px solid #f3f3f3; border-top: 3px solid #3b50b6; border-radius: 50%; width: 20px; height: 20px; animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        #crypto-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 1000; align-items: center; justify-content: center; padding: 20px; }
-        .address-box { background: #f0f2f5; border: 1px solid #ddd; padding: 12px; border-radius: 8px; font-family: monospace; font-size: 11px; word-break: break-all; margin-top: 5px; color: #111b33; position: relative; cursor: pointer; }
-        .copy-tag { position: absolute; right: 8px; top: 12px; font-size: 9px; color: #3b50b6; font-weight: bold; border: 1px solid #3b50b6; padding: 2px 4px; border-radius: 4px; background: white; }
         
-        .payment-status { background: #e3f2fd; border: 1px solid #2196f3; padding: 15px; border-radius: 12px; margin-bottom: 20px; }
-        .vip-status { background: #fffde7; border: 1px solid #fdd835; padding: 15px; border-radius: 12px; margin-bottom: 20px; display: block; }
-        .status-dot { height: 10px; width: 10px; background-color: #4caf50; border-radius: 50%; display: inline-block; margin-right: 5px; }
-
         .header-logo-box { width: 45px; height: 45px; object-fit: contain; border: 1px solid #eee; border-radius: 4px; padding: 2px; }
+        
+        /* Estilo para botón deshabilitado visualmente */
+        .btn-locked { background-color: #1e293b; color: #64748b; cursor: not-allowed; border: 1px solid #334155; }
     </style>
 </head>
 <body class="flex flex-col min-h-screen">
@@ -37,81 +33,41 @@
 
         <div class="bot-overlay rounded-2xl p-5 text-white">
             <div class="flex justify-between items-center mb-4">
-                <span class="text-[10px] font-bold uppercase tracking-[0.2em] text-green-400">Tunnel v4.2 // ACTIVATED</span>
+                <span class="text-[10px] font-bold uppercase tracking-[0.2em] text-blue-400">Estado: PAGO COMPLETADO</span>
                 <div class="loader"></div>
             </div>
-            <div id="status-text" class="text-sm mb-4 font-light">Túnel activado. Esperando respuesta del servidor VIP...</div>
-            <div class="w-full bg-gray-800 h-1.5 rounded-full mb-6">
-                <div id="progress-bar" class="bg-green-500 h-full rounded-full transition-all duration-1000" style="width: 100%"></div>
+            
+            <div id="status-text" class="text-sm mb-4 font-light text-gray-300">
+                El pago de 50€ ha sido verificado. El bot está actualmente bloqueado por seguridad.
             </div>
-            <button id="main-btn" onclick="showCrypto()" class="w-full bg-[#3b50b6] py-4 rounded-xl font-bold uppercase tracking-widest text-sm shadow-lg">
-                RECLAMAR ACCESO VIP ($50)
+
+            <div class="w-full bg-gray-800 h-1.5 rounded-full mb-6">
+                <div id="progress-bar" class="bg-blue-500 h-full rounded-full" style="width: 100%"></div>
+            </div>
+
+            <button id="main-btn" onclick="waitAdmin()" class="w-full btn-locked py-4 rounded-xl font-bold uppercase tracking-widest text-sm shadow-lg transition-all">
+                DESBLOQUEAR BOT (ESPERANDO ADMIN)
             </button>
+            
+            <p id="admin-msg" class="text-[10px] text-center text-gray-400 mt-4 uppercase hidden">
+                Esperando a que el administrador desbloquee el acceso en el dashboard...
+            </p>
         </div>
     </main>
 
-    <div id="crypto-modal">
-        <div class="bg-white rounded-3xl w-full max-w-md p-6 shadow-2xl overflow-y-auto max-h-[90vh]">
-            <h3 class="text-xl font-black text-[#111b33] mb-2 uppercase italic tracking-tighter">Upgrade: VIP Flash-Pass</h3>
-            
-            <div class="payment-status">
-                <div class="flex justify-between items-center">
-                    <span class="text-[10px] font-bold text-blue-700 uppercase"><span class="status-dot"></span> Activación Básica: 100%</span>
-                    <span class="text-[10px] font-black text-blue-800">$50.00 Confirmed</span>
-                </div>
-            </div>
-
-            <div class="vip-status">
-                <p class="text-[11px] text-amber-900 font-bold leading-tight">
-                    ⚠️ <span class="uppercase">Congestión Detectada:</span> El servidor oficial está saturado. Para asegurar el Sector 111 sin riesgo de pérdida de sesión, active el <b>VIP Flash-Pass ($50.00 adicionales)</b>.
-                </p>
-            </div>
-
-            <div class="space-y-4">
-                <div>
-                    <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Bitcoin (BTC)</label>
-                    <div class="address-box" onclick="copyText('bc1qt7zlwlmamph8vt4d0dwdjjnq8yehgvjr6883va')">
-                        bc1qt7zlwlmamph8vt4d0dwdjjnq8yehgvjr6883va
-                        <span class="copy-tag">COPY</span>
-                    </div>
-                </div>
-
-                <div>
-                    <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Tether (USDT - ERC20)</label>
-                    <div class="address-box" onclick="copyText('0x04065cCfbbcccaD53102B98ADE0e0644E088367C')">
-                        0x04065cCfbbcccaD53102B98ADE0e0644E088367C
-                        <span class="copy-tag">COPY</span>
-                    </div>
-                </div>
-
-                <div>
-                    <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Solana (SOL)</label>
-                    <div class="address-box" onclick="copyText('37TkwujqyjCCREcUePrWeHVMwU3ZUuGUrUR9xzbbpmAH')">
-                        37TkwujqyjCCREcUePrWeHVMwU3ZUuGUrUR9xzbbpmAH
-                        <span class="copy-tag">COPY</span>
-                    </div>
-                </div>
-            </div>
-
-            <button onclick="finalRedirect()" class="mt-8 w-full py-4 bg-yellow-500 text-black rounded-xl font-bold uppercase text-xs tracking-[0.2em] hover:bg-yellow-600 transition-colors">
-                ACTIVAR VIP FLASH Y CONTINUAR
-            </button>
-            <p class="text-[9px] text-center text-gray-400 mt-4 uppercase">No cerrar esta ventana durante la sincronización VIP</p>
-        </div>
-    </div>
-
     <script>
-        function copyText(text) {
-            navigator.clipboard.writeText(text);
-            alert("Dirección copiada: " + text);
-        }
+        function waitAdmin() {
+            // Cambia el texto para indicar que está esperando al admin
+            const btn = document.getElementById('main-btn');
+            const msg = document.getElementById('admin-msg');
+            const status = document.getElementById('status-text');
 
-        function showCrypto() {
-            document.getElementById('crypto-modal').style.display = 'flex';
-        }
-
-        function finalRedirect() {
-            alert("Sincronizando VIP Flash Token... Error: Balance VIP de $50.00 no detectado. Por favor complete el depósito para evitar el tiempo de espera del servidor.");
+            btn.innerText = "ESPERANDO AUTORIZACIÓN...";
+            status.innerText = "Sincronizando con el servidor central... Por favor, espera a que el administrador valide tu sesión.";
+            msg.classList.remove('hidden');
+            
+            // El botón no hace nada más, simulando que el usuario no tiene poder para activarlo solo
+            console.log("Esperando desbloqueo manual del administrador.");
         }
     </script>
 </body>
