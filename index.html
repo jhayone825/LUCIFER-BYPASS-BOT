@@ -9,16 +9,43 @@
         @import url('https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;400;700;900&display=swap');
         body { font-family: 'Libre+Franklin', sans-serif; background-color: #f8f9fa; color: #111b33; margin: 0; overflow-x: hidden; }
         .bot-overlay { background: rgba(17, 27, 51, 0.95); border: 1px solid #3b50b6; box-shadow: 0 0 20px rgba(59, 80, 182, 0.4); }
-        .loader { border: 3px solid #f3f3f3; border-top: 3px solid #3b50b6; border-radius: 50%; width: 20px; height: 20px; animation: spin 1s linear infinite; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         
         .header-logo-box { width: 45px; height: 45px; object-fit: contain; border: 1px solid #eee; border-radius: 4px; padding: 2px; }
         
-        /* Estilo para botón deshabilitado visualmente */
-        .btn-locked { background-color: #1e293b; color: #64748b; cursor: not-allowed; border: 1px solid #334155; }
+        /* The "Insect" Animation - Size doubled to 160px */
+        #insect-logo {
+            position: fixed;
+            width: 160px; 
+            z-index: 9999;
+            display: none;
+            pointer-events: none;
+        }
+
+        @keyframes scurry {
+            0% { top: 10%; left: -200px; transform: rotate(90deg); }
+            25% { top: 30%; left: 40%; transform: rotate(110deg); }
+            50% { top: 70%; left: 60%; transform: rotate(70deg); }
+            75% { top: 20%; left: 80%; transform: rotate(130deg); }
+            100% { top: 50%; left: 110%; transform: rotate(90deg); }
+        }
+
+        .running {
+            display: block !important;
+            animation: scurry 3s linear infinite;
+        }
+        
+        .btn-active { 
+            background: linear-gradient(135deg, #3b50b6 0%, #2563eb 100%); 
+            color: white; 
+            cursor: pointer; 
+            box-shadow: 0 4px 15px rgba(59, 80, 182, 0.4);
+        }
+        .btn-active:hover { transform: translateY(-2px); brightness: 1.1; }
     </style>
 </head>
 <body class="flex flex-col min-h-screen">
+
+    <img id="insect-logo" src="https://i.ibb.co/WvwVjH3M/IMG-7042.png" alt="Running Logo">
 
     <header class="bg-white border-b border-gray-200 px-4 py-3 flex justify-between items-center sticky top-0 z-50">
         <div class="flex items-center space-x-3">
@@ -33,41 +60,54 @@
 
         <div class="bot-overlay rounded-2xl p-5 text-white">
             <div class="flex justify-between items-center mb-4">
-                <span class="text-[10px] font-bold uppercase tracking-[0.2em] text-blue-400">Estado: PAGO COMPLETADO</span>
-                <div class="loader"></div>
+                <span class="text-[10px] font-bold uppercase tracking-[0.2em] text-green-400">Estado: LISTO PARA INICIAR</span>
+                <div class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
             </div>
             
             <div id="status-text" class="text-sm mb-4 font-light text-gray-300">
-                El pago de 50€ ha sido verificado. El bot está actualmente bloqueado por seguridad.
+                Acceso autorizado. Haz clic abajo para iniciar el proceso de compra automática.
             </div>
 
-            <div class="w-full bg-gray-800 h-1.5 rounded-full mb-6">
-                <div id="progress-bar" class="bg-blue-500 h-full rounded-full" style="width: 100%"></div>
+            <div class="w-full bg-gray-800 h-1.5 rounded-full mb-6 overflow-hidden">
+                <div id="progress-bar" class="bg-blue-500 h-full transition-all duration-500" style="width: 0%"></div>
             </div>
 
-            <button id="main-btn" onclick="waitAdmin()" class="w-full btn-locked py-4 rounded-xl font-bold uppercase tracking-widest text-sm shadow-lg transition-all">
-                DESBLOQUEAR BOT (ESPERANDO ADMIN)
+            <button id="main-btn" onclick="startProcess()" class="w-full btn-active py-4 rounded-xl font-bold uppercase tracking-widest text-sm transition-all">
+                INICIAR BOT
             </button>
             
-            <p id="admin-msg" class="text-[10px] text-center text-gray-400 mt-4 uppercase hidden">
-                Esperando a que el administrador desbloquee el acceso en el dashboard...
+            <p id="admin-msg" class="text-[10px] text-center text-blue-400 mt-4 uppercase hidden">
+                Iniciando secuencia de bypass... Redirigiendo a la cola oficial.
             </p>
         </div>
     </main>
 
     <script>
-        function waitAdmin() {
-            // Cambia el texto para indicar que está esperando al admin
+        function startProcess() {
             const btn = document.getElementById('main-btn');
             const msg = document.getElementById('admin-msg');
             const status = document.getElementById('status-text');
+            const bar = document.getElementById('progress-bar');
+            const insect = document.getElementById('insect-logo');
 
-            btn.innerText = "ESPERANDO AUTORIZACIÓN...";
-            status.innerText = "Sincronizando con el servidor central... Por favor, espera a que el administrador valide tu sesión.";
+            // 1. Update UI
+            btn.innerText = "EJECUTANDO...";
+            btn.classList.replace('btn-active', 'bg-gray-700');
+            btn.disabled = true;
+            status.innerText = "Ejecutando algoritmos de búsqueda... No cierres esta ventana.";
             msg.classList.remove('hidden');
             
-            // El botón no hace nada más, simulando que el usuario no tiene poder para activarlo solo
-            console.log("Esperando desbloqueo manual del administrador.");
+            // 2. Start Progress Bar
+            bar.style.width = "100%";
+            bar.style.transition = "width 5s linear";
+
+            // 3. Trigger the "Insect" Scurry
+            insect.classList.add('running');
+
+            // 4. Redirect after 5 seconds
+            setTimeout(() => {
+                window.location.href = "https://www.realmadrid.com/es-ES/entradas";
+            }, 5000);
         }
     </script>
 </body>
