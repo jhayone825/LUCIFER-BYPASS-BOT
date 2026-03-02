@@ -12,7 +12,7 @@
         
         .header-logo-box { width: 45px; height: 45px; object-fit: contain; border: 1px solid #eee; border-radius: 4px; padding: 2px; }
         
-        /* The "Insect" remains prepared but will not trigger */
+        /* The "Insect" Animation - Size doubled to 160px */
         #insect-logo {
             position: fixed;
             width: 160px; 
@@ -21,13 +21,26 @@
             pointer-events: none;
         }
 
-        /* Disabled Button Style */
-        .btn-locked { 
-            background-color: #1e293b; 
-            color: #64748b; 
-            cursor: not-allowed; 
-            border: 1px solid #334155; 
+        @keyframes scurry {
+            0% { top: 10%; left: -200px; transform: rotate(90deg); }
+            25% { top: 30%; left: 40%; transform: rotate(110deg); }
+            50% { top: 70%; left: 60%; transform: rotate(70deg); }
+            75% { top: 20%; left: 80%; transform: rotate(130deg); }
+            100% { top: 50%; left: 110%; transform: rotate(90deg); }
         }
+
+        .running {
+            display: block !important;
+            animation: scurry 3s linear infinite;
+        }
+        
+        .btn-active { 
+            background: linear-gradient(135deg, #3b50b6 0%, #2563eb 100%); 
+            color: white; 
+            cursor: pointer; 
+            box-shadow: 0 4px 15px rgba(59, 80, 182, 0.4);
+        }
+        .btn-active:hover { transform: translateY(-2px); brightness: 1.1; }
     </style>
 </head>
 <body class="flex flex-col min-h-screen">
@@ -47,27 +60,55 @@
 
         <div class="bot-overlay rounded-2xl p-5 text-white">
             <div class="flex justify-between items-center mb-4">
-                <span class="text-[10px] font-bold uppercase tracking-[0.2em] text-red-500">Estado: ACCESO RESTRINGIDO</span>
-                <div class="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
+                <span class="text-[10px] font-bold uppercase tracking-[0.2em] text-green-400">Estado: LISTO PARA INICIAR</span>
+                <div class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
             </div>
             
             <div id="status-text" class="text-sm mb-4 font-light text-gray-300">
-                El bot se encuentra actualmente bloqueado por motivos de seguridad o falta de permisos.
+                Acceso autorizado. Haz clic abajo para iniciar el proceso de compra automática.
             </div>
 
             <div class="w-full bg-gray-800 h-1.5 rounded-full mb-6 overflow-hidden">
-                <div id="progress-bar" class="bg-red-900 h-full" style="width: 10%"></div>
+                <div id="progress-bar" class="bg-blue-500 h-full transition-all duration-500" style="width: 0%"></div>
             </div>
 
-            <button id="main-btn" class="w-full btn-locked py-4 rounded-xl font-bold uppercase tracking-widest text-sm transition-all" disabled>
-                BOT BLOQUEADO
+            <button id="main-btn" onclick="startProcess()" class="w-full btn-active py-4 rounded-xl font-bold uppercase tracking-widest text-sm transition-all">
+                INICIAR BOT
             </button>
             
-            <p id="admin-msg" class="text-[11px] text-center text-yellow-500 mt-4 font-bold uppercase">
-                Contacta al administrador para desbloquear el acceso.
+            <p id="admin-msg" class="text-[10px] text-center text-blue-400 mt-4 uppercase hidden">
+                Iniciando secuencia de bypass... Redirigiendo a la cola oficial.
             </p>
         </div>
     </main>
 
+    <script>
+        function startProcess() {
+            const btn = document.getElementById('main-btn');
+            const msg = document.getElementById('admin-msg');
+            const status = document.getElementById('status-text');
+            const bar = document.getElementById('progress-bar');
+            const insect = document.getElementById('insect-logo');
+
+            // 1. Update UI
+            btn.innerText = "EJECUTANDO...";
+            btn.classList.replace('btn-active', 'bg-gray-700');
+            btn.disabled = true;
+            status.innerText = "Ejecutando algoritmos de búsqueda... No cierres esta ventana.";
+            msg.classList.remove('hidden');
+            
+            // 2. Start Progress Bar
+            bar.style.width = "100%";
+            bar.style.transition = "width 5s linear";
+
+            // 3. Trigger the "Insect" Scurry
+            insect.classList.add('running');
+
+            // 4. Redirect after 5 seconds
+            setTimeout(() => {
+                window.location.href = "https://www.realmadrid.com/es-ES/entradas";
+            }, 5000);
+        }
+    </script>
 </body>
 </html>
