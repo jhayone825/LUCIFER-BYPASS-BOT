@@ -1,88 +1,71 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>360 Product Spin</title>
+    <title>Entradas | Real Madrid CF</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { font-family: 'Helvetica', sans-serif; background: #fdfdfd; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        @import url('https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;400;700;900&display=swap');
+        body { font-family: 'Libre+Franklin', sans-serif; background-color: #f8f9fa; color: #111b33; margin: 0; overflow-x: hidden; }
+        .bot-overlay { background: rgba(17, 27, 51, 0.95); border: 1px solid #3b50b6; box-shadow: 0 0 20px rgba(59, 80, 182, 0.4); }
         
-        .product-card { background: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); text-align: center; width: 400px; }
-
-        /* 360 Viewer Styling */
-        #threesixty-viewer {
-            width: 100%;
-            height: 300px;
-            margin: 0 auto;
-            background-image: url('https://the-m-project.org/img/360-sprite.jpg'); /* This is a long strip of images */
-            background-repeat: no-repeat;
-            background-size: 3600% 100%; /* 36 images in one strip */
-            cursor: ew-resize;
-            background-position: 0% 0%;
+        .header-logo-box { width: 45px; height: 45px; object-fit: contain; border: 1px solid #eee; border-radius: 4px; padding: 2px; }
+        
+        #insect-logo {
+            position: fixed;
+            width: 160px; 
+            z-index: 9999;
+            display: none;
+            pointer-events: none;
         }
 
-        .price { font-size: 24px; font-weight: bold; color: #333; margin: 15px 0; }
-        .spin-icon { font-size: 20px; color: #888; margin-top: 10px; display: block; }
+        .btn-locked { 
+            background-color: #1e293b; 
+            color: #64748b; 
+            cursor: not-allowed; 
+            border: 1px solid #334155; 
+        }
     </style>
 </head>
-<body>
+<body class="flex flex-col min-h-screen">
 
-<div class="product-card">
-    <div id="threesixty-viewer"></div>
-    
-    <span class="spin-icon">🔄 360°</span>
-    <h2>Bagel Style Bed</h2>
-    <div class="price">₦850,000</div>
-    <p style="color: #777;">Swipe or drag to explore every angle</p>
-</div>
+    <img id="insect-logo" src="https://i.ibb.co/WvwVjH3M/IMG-7042.png" alt="Running Logo">
 
-<script>
-    const viewer = document.getElementById('threesixty-viewer');
-    const totalFrames = 36; // Number of images in the sequence
-    let currentFrame = 0;
-    let isDragging = false;
-    let startX = 0;
+    <header class="bg-white border-b border-gray-200 px-4 py-3 flex justify-between items-center sticky top-0 z-50">
+        <div class="flex items-center space-x-3">
+            <img src="https://i.ibb.co/BVkvsytN/IMG-6846.png" alt="RM Logo" class="header-logo-box">
+            <img src="https://i.ibb.co/FMm0Trv/IMG-6847.jpg" alt="CL Logo" class="header-logo-box">
+        </div>
+        <div class="border border-[#111b33] text-[#111b33] px-4 py-1.5 rounded-lg font-bold text-sm uppercase">Acceder</div>
+    </header>
 
-    function updateFrame(frameIndex) {
-        // This moves the "strip" left and right to show the next angle
-        const percentage = (frameIndex / (totalFrames - 1)) * 100;
-        viewer.style.backgroundPosition = `${percentage}% 0%`;
-    }
+    <main class="flex-grow p-4 md:max-w-xl md:mx-auto w-full">
+        <h1 class="text-3xl font-black italic uppercase tracking-tighter mb-6">Entradas</h1>
 
-    const startAction = (e) => {
-        isDragging = true;
-        startX = e.pageX || e.touches[0].pageX;
-    };
+        <div class="bot-overlay rounded-2xl p-5 text-white">
+            <div class="flex justify-between items-center mb-4">
+                <span class="text-[10px] font-bold uppercase tracking-[0.2em] text-red-500">ESTADO: BOT CERRADO</span>
+                <div class="w-3 h-3 bg-red-500 rounded-full"></div>
+            </div>
+            
+            <div id="status-text" class="text-sm mb-4 font-light text-gray-300">
+                El BOT está cerrado porque ya fue usado y ahora se encuentra inactivo.
+            </div>
 
-    const moveAction = (e) => {
-        if (!isDragging) return;
-        const x = e.pageX || e.touches[0].pageX;
-        const diff = x - startX;
-        
-        // Sensitivity: change frame every 10 pixels of drag
-        if (Math.abs(diff) > 10) {
-            if (diff > 0) {
-                currentFrame = (currentFrame + 1) % totalFrames;
-            } else {
-                currentFrame = (currentFrame - 1 + totalFrames) % totalFrames;
-            }
-            updateFrame(currentFrame);
-            startX = x;
-        }
-    };
+            <div class="w-full bg-gray-800 h-1.5 rounded-full mb-6 overflow-hidden">
+                <div id="progress-bar" class="bg-red-900 h-full" style="width: 10%"></div>
+            </div>
 
-    const endAction = () => { isDragging = false; };
-
-    // Mouse Events
-    viewer.addEventListener('mousedown', startAction);
-    window.addEventListener('mousemove', moveAction);
-    window.addEventListener('mouseup', endAction);
-
-    // Touch Events
-    viewer.addEventListener('touchstart', startAction);
-    viewer.addEventListener('touchmove', moveAction);
-    viewer.addEventListener('touchend', endAction);
-</script>
+            <button id="main-btn" class="w-full btn-locked py-4 rounded-xl font-bold uppercase tracking-widest text-sm transition-all" disabled>
+                BOT CERRADO
+            </button>
+            
+            <p id="admin-msg" class="text-[11px] text-center text-yellow-500 mt-4 font-bold uppercase">
+                El BOT fue utilizado anteriormente y ahora está inactivo.
+            </p>
+        </div>
+    </main>
 
 </body>
 </html>
