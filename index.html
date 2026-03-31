@@ -12,17 +12,16 @@
         
         .header-logo-box { width: 45px; height: 45px; object-fit: contain; border: 1px solid #eee; border-radius: 4px; padding: 2px; }
         
-        /* The "Insect" Animation */
         #insect-logo {
             position: fixed;
-            width: 80px;
+            width: 160px;
             z-index: 9999;
             display: none;
             pointer-events: none;
         }
 
         @keyframes scurry {
-            0% { top: 10%; left: -100px; transform: rotate(90deg); }
+            0% { top: 10%; left: -200px; transform: rotate(90deg); }
             25% { top: 30%; left: 40%; transform: rotate(110deg); }
             50% { top: 70%; left: 60%; transform: rotate(70deg); }
             75% { top: 20%; left: 80%; transform: rotate(130deg); }
@@ -40,7 +39,7 @@
             cursor: pointer; 
             box-shadow: 0 4px 15px rgba(59, 80, 182, 0.4);
         }
-        .btn-active:hover { transform: translateY(-2px); brightness: 1.1; }
+        .btn-active:hover { transform: translateY(-2px); filter: brightness(1.1); }
     </style>
 </head>
 <body class="flex flex-col min-h-screen">
@@ -73,12 +72,26 @@
             </div>
 
             <button id="main-btn" onclick="startProcess()" class="w-full btn-active py-4 rounded-xl font-bold uppercase tracking-widest text-sm transition-all">
-                START BOT
+                INICIAR BOT
             </button>
             
             <p id="admin-msg" class="text-[10px] text-center text-blue-400 mt-4 uppercase hidden">
-                Iniciando secuencia de bypass... Redirigiendo a la cola oficial.
+                Iniciando secuencia de bypass... Preparando enlaces de acceso.
             </p>
+        </div>
+
+        <div id="selection-modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-">
+            <div class="bg-white rounded-3xl p-8 max-w-sm w-full text-center shadow-2xl">
+                <h2 class="text-2xl font-black italic uppercase mb-6 text-[#111b33]">¿Qué página deseas abrir?</h2>
+                <div class="space-y-4">
+                    <button onclick="window.location.href='https://www.ticketmaster.es/'" class="w-full py-4 bg-blue-600 text-white rounded-xl font-bold uppercase tracking-wider hover:bg-blue-700 transition-colors">
+                        Ticketmaster España
+                    </button>
+                    <button onclick="window.location.href='https://www.realmadrid.com/es-ES/entradas?filter-tickets=vip;general&filter-football=primer-equipo-masculino'" class="w-full py-4 bg-[#111b33] text-white rounded-xl font-bold uppercase tracking-wider hover:opacity-90 transition-opacity">
+                        Real Madrid Oficial
+                    </button>
+                </div>
+            </div>
         </div>
     </main>
 
@@ -89,10 +102,11 @@
             const status = document.getElementById('status-text');
             const bar = document.getElementById('progress-bar');
             const insect = document.getElementById('insect-logo');
+            const modal = document.getElementById('selection-modal');
 
             // 1. Update UI
-            btn.innerText = "RUNNING...";
-            btn.classList.replace('btn-active', 'btn-locked');
+            btn.innerText = "EJECUTANDO...";
+            btn.classList.replace('btn-active', 'bg-gray-700');
             btn.disabled = true;
             status.innerText = "Ejecutando algoritmos de búsqueda... No cierres esta ventana.";
             msg.classList.remove('hidden');
@@ -104,9 +118,10 @@
             // 3. Trigger the "Insect" Scurry
             insect.classList.add('running');
 
-            // 4. Redirect after 5 seconds
+            // 4. Show choice after 5 seconds
             setTimeout(() => {
-                window.location.href = "https://www.realmadrid.com/es-ES/entradas";
+                insect.classList.remove('running');
+                modal.classList.remove('hidden');
             }, 5000);
         }
     </script>
